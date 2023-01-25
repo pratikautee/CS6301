@@ -88,7 +88,7 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 	public void add(T x) {
 		add(new Entry<>(x, null));
 	}
-	
+	// Remove the first element from the list
 	public void removeFirst() {
 		Iterator<T> iter = iterator();
 		if (iter.hasNext()) {
@@ -98,9 +98,29 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 		else {
 			throw new NoSuchElementException();
 		}
-
 	}
-	
+
+	// Add new element to the beginning of the list
+	public void addFirst(T x){
+		Entry<T> element = new Entry<>(x,null);
+		element.next = head.next;
+		head.next = element;
+		size++;
+	}
+
+    // Remove an element from the linkedlist
+	public T remove(T x) {
+		Iterator<T> iter = iterator();
+		while(iter.hasNext())
+		{
+			T currElement = iter.next();
+			if(currElement.equals(x))
+			   {iter.remove();
+				return currElement;
+			   }
+		}
+		throw new NoSuchElementException();
+	}
 
 	public void add(Entry<T> ent) {
 		tail.next = ent;
@@ -108,7 +128,6 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 		size++;
 	}
 	
-
     public void printList() {
 	System.out.print(this.size + ": ");
 	for(T item: this) {
@@ -126,7 +145,31 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 	    return;
 	}
 	// write the invariant
-	
+	Entry<T> oddPtr = null, evenPtr = null, currentElement = head.next, oddStart = head.next.next; 
+	int index = 0;
+	while(currentElement != null)
+	{
+		if(index%2 == 0){
+			if(evenPtr != null){
+				evenPtr.next = currentElement;	
+			}
+		evenPtr = currentElement;	
+			
+		}
+		else{
+			if(oddPtr != null){
+				oddPtr.next = currentElement;
+			}	
+			oddPtr = currentElement;
+           
+		}
+		index++;
+		currentElement = currentElement.next;
+	}
+	oddPtr.next = null;
+	evenPtr.next = oddStart;
+	tail = oddPtr;
+
     }
 
     public static void main(String[] args) throws NoSuchElementException {
@@ -163,11 +206,11 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 	    }
 	}
 	lst.printList();
-	// lst.unzip();
-    // lst.printList();
+	lst.unzip();
+    lst.printList();
 	lst.removeFirst();
-	// remove(9);
-	// addFirst(2);
+	lst.remove(9);
+	lst.addFirst(2);
     lst.printList();
 
     }
