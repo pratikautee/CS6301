@@ -91,13 +91,11 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 	// Remove the first element from the list
 	public void removeFirst() {
 		Iterator<T> iter = iterator();
-		if (iter.hasNext()) {
-			iter.next();
-			iter.remove();
-		}
-		else {
+		if (!iter.hasNext()) {
 			throw new NoSuchElementException();
 		}
+		iter.next();
+		iter.remove();
 	}
 
 	// Add new element to the beginning of the list
@@ -141,35 +139,23 @@ public class SinglyLinkedList<T> implements Iterable<T> {
     // followed by the elements at odd index. Implement by rearranging pointers
     // of existing elements without allocating any new elements.
     public void unzip() {
-	if(size < 3) {  // Too few elements.  No change.
-	    return;
-	}
-	// write the invariant
-	Entry<T> oddPtr = null, evenPtr = null, currentElement = head.next, oddStart = head.next.next; 
-	int index = 0;
-	while(currentElement != null)
-	{
-		if(index%2 == 0){
-			if(evenPtr != null){
-				evenPtr.next = currentElement;	
-			}
-		evenPtr = currentElement;	
-			
+		if (size < 3) { // Too few elements.  No change.
+			return;
 		}
-		else{
-			if(oddPtr != null){
-				oddPtr.next = currentElement;
-			}	
-			oddPtr = currentElement;
-           
-		}
-		index++;
-		currentElement = currentElement.next;
-	}
-	oddPtr.next = null;
-	evenPtr.next = oddStart;
-	tail = oddPtr;
+		// write the invariant
+		Entry<T> evenTail, oddTail, oddHead;
 
+		evenTail = head.next;
+		oddHead = head.next.next;
+		oddTail = head.next.next;
+
+		while (evenTail.next != null && oddTail.next != null) {
+			evenTail.next = evenTail.next.next;
+			evenTail = evenTail.next;
+			oddTail.next = oddTail.next.next;
+			oddTail = oddTail.next;
+		}
+		evenTail.next = oddHead;
     }
 
     public static void main(String[] args) throws NoSuchElementException {
@@ -206,6 +192,8 @@ public class SinglyLinkedList<T> implements Iterable<T> {
 	    }
 	}
 	lst.printList();
+	lst.unzip();
+    lst.printList();
 	lst.unzip();
     lst.printList();
 	lst.removeFirst();
