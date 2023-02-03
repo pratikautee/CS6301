@@ -4,11 +4,16 @@ Steps to Run the Project
 Open the project folder in an IDE (Preferrably IntelliJ) and run the file DoublyLinkedList.java.
 
 *** Method 2 ***
-1. Extract the contents of the zip file into a folder, for example "Document" folder.
-2. Inside the "Document" folder, open a terminal and run the following commands:
-    javac SinglyLinkedList.java
-    javac -classpath . axk190189/DoublyLinkedList.java
-    java axk190189/DoublyLinkedList
+1. Extract the contents of the zip file.
+2. Open a terminal window in the directory which contains the extracted folder.
+    2.1 Compile the SinglyLinkedList.java file using:
+        javac axk190189/SinglyLinkedList.java
+
+    2.2 Compile the DoublyLinkedList.java file while providing path to SinglyLinkedList class files using:
+        javac -cp . axk190189/DoublyLinkedList.java
+
+    2.3 Run the DoublyLinkedList.java file using:
+        java axk190189.DoublyLinkedList
 
 
 Once the program is run, a doubly linkedList will be created with size 10 and elements from 0 to 9.
