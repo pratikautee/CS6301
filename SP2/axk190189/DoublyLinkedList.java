@@ -1,6 +1,5 @@
 package axk190189;
 
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.NoSuchElementException;
 
@@ -24,7 +23,7 @@ public class DoublyLinkedList<T> extends SinglyLinkedList<T> {
         return new DLLIterator();
     }
 
-    protected class DLLIterator extends SinglyLinkedList.SLLIterator {
+    protected class DLLIterator extends SinglyLinkedList<T>.SLLIterator {
 
         DLLIterator() {
             super();
@@ -36,7 +35,7 @@ public class DoublyLinkedList<T> extends SinglyLinkedList<T> {
         }
 
         public T prev() {
-            if (prev == null)
+            if (((Entry<T>) cursor).prev.prev == null)
                 throw new NoSuchElementException();
             ready = true;
             cursor = prev;
@@ -101,6 +100,7 @@ public class DoublyLinkedList<T> extends SinglyLinkedList<T> {
         }
         DoublyLinkedList<Integer>.DLLIterator it = db.iterator();
         Scanner in = new Scanner(System.in);
+        db.printList();
         System.out.println("Press 1-for next  2-for prev  3-for remove 4-to add and any other number to exit");
         whileloop:
         while(in.hasNext()) {
