@@ -16,13 +16,23 @@ public class Num  implements Comparable<Num> {
     public Num(String s) {
         s = s.trim();
         list = new long[s.length()];
-        for (int idx=0; idx<s.length(); idx++) {
-            list[idx] = Long.parseLong(String.valueOf(s.charAt(idx)));
+        for (int idx = 0; idx < s.length(); idx++) {
+            try{
+                list[idx] = Long.parseLong(String.valueOf(s.charAt(idx)));
+            }
+            catch (NumberFormatException e) {
+                continue;
+            }
         }
+        len = list.length;
     }
 
 
     public static Num add(Num a, Num b) {
+        int maxLen = Math.min(a.len, b.len);
+        long[] addResult = new long[maxLen + 1];
+        long carry = 0;
+        //TODO
 	return null;
     }
 
