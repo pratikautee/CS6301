@@ -5,6 +5,8 @@
 // Change following line to your NetId
 package idsa;
 
+import java.util.Arrays;
+
 public class Num  implements Comparable<Num> {
 
     static long defaultBase = 10;  // Change as needed
@@ -43,7 +45,11 @@ public class Num  implements Comparable<Num> {
 	
 	// Return number to a string in base 10
     public String toString() {
-	return null;
+        String numString = new String();
+        for (long n: list){
+            numString = numString.concat(String.valueOf(n));
+        }
+        return numString;
     }
 
 	//  methods below are optional
@@ -100,9 +106,10 @@ public class Num  implements Comparable<Num> {
 	// Num z = Num.add(x, y);
 	// System.out.println(z);
 	// Num a = Num.product(x, y);
-	// System.out.println(a);
+	System.out.println(x.toString());
     // if(a != null) a.printList();
     x.printList();
     y.printList();
+    
     }
 }
