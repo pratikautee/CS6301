@@ -12,8 +12,13 @@ public class Num  implements Comparable<Num> {
     long[] list;  // array to store arbitrarily large integers
     boolean isNegative;  // boolean flag to represent negative numbers
     int len;  // actual number of elements of array that are used;  number is stored in list[0..len-1]
-
+    
     public Num(String s) {
+        s = s.trim();
+        list = new long[s.length()];
+        for (int idx=0; idx<s.length(); idx++) {
+            list[idx] = Long.parseLong(String.valueOf(s.charAt(idx)));
+        }
     }
 
 
@@ -55,8 +60,8 @@ public class Num  implements Comparable<Num> {
     
     // Output using the format "base: elements of list ..."
     public void printList() {
-		System.out.print(Base + " : ");
-		for(int i=0; i<length; i++) {
+		System.out.print(defaultBase + " : ");
+		for(int i=0; i<list.length; i++) {
 			System.out.print(list[i] + " ");
 		}
 	System.out.println();
@@ -82,10 +87,12 @@ public class Num  implements Comparable<Num> {
     public static void main(String[] args) {
 	Num x = new Num("8888888888888");
 	Num y = new Num("2");
-	Num z = Num.add(x, y);
-	System.out.println(z);
-	Num a = Num.product(x, y);
-	System.out.println(a);
-	if(a != null) a.printList();
+	// Num z = Num.add(x, y);
+	// System.out.println(z);
+	// Num a = Num.product(x, y);
+	// System.out.println(a);
+    // if(a != null) a.printList();
+    x.printList();
+    y.printList();
     }
 }
