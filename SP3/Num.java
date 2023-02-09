@@ -18,8 +18,8 @@ public class Num implements Comparable<Num> {
     int numLength; // length of each long number
 
     public Num(String s) {
-        list = new long[s.length()];
         numLength = 4;
+        list = new long[(s.length()/numLength)+2];
         StringBuilder numberToString = new StringBuilder(s);
         String reverse = numberToString.reverse().toString();
         int start = 0;
@@ -34,37 +34,36 @@ public class Num implements Comparable<Num> {
         }
     }
 
-    public static Num add(Num a, Num b) {
-        int maxLen = Math.max(a.len, b.len);
-        long[] result = new long[maxLen + 1];
-        long carry = 0;
-        for (int i = 0; i < maxLen; i++) {
-            long aVal = i < a.len ? a.list[i] : 0;
-            long bVal = i < b.len ? b.list[i] : 0;
-            long tempResult = aVal + bVal + carry;
-            if (tempResult >= Math.pow(10, a.numLength)) {
-                carry = 1;
-                tempResult = tempResult % (long) (Math.pow(10, a.numLength));
-            } else {
-                carry = 0;
-            }
-            result[i] = tempResult;
-        }
-        int actualLength = result[maxLen] == 0 ? maxLen : maxLen + 1;
-        StringBuilder numString = new StringBuilder();
-        for (int i = 0; i < actualLength - 1; i++) {
-            StringBuilder tempNum = new StringBuilder(String.valueOf(result[i]));
-            if (tempNum.length() < a.numLength) {
-                while (tempNum.length() != a.numLength) {
-                    tempNum.insert(0, "0");
-                }
-            }
-            numString.insert(0, tempNum.toString());
-        }
-        numString.insert(0, String.valueOf(result[actualLength - 1]));
-        return new Num(numString.toString());  
+    public Num(long[] n , int length)
+    {
+        numLength = 4;
+        list = n;
+        len = length;
+
     }
 
+
+    public static Num add(Num a, Num b) {
+        int aLen = a!=null? a.len:0; int bLen= b!=null?b.len:0;
+        int maxLen = Math.max(aLen, bLen);
+        long[] result = new long[maxLen + 1];
+        long carry = 0;
+        long maxPower = (long) Math.pow(10,a.numLength);
+        int idx;
+        for ( idx = 0; idx < maxLen; idx++) {
+            long aVal = idx < a.len ? a.list[idx] : 0;
+            long bVal = idx < b.len ? b.list[idx] : 0;
+            long tempResult = aVal + bVal + carry;
+            carry = tempResult/maxPower;
+            tempResult = tempResult%maxPower;
+            result[idx] = tempResult;
+        }
+        if(carry==1)
+        {result[idx] = carry; idx++;}
+
+        int actualLength = result[maxLen] == 0 ? maxLen : maxLen + 1;
+        return new Num(result,actualLength);
+    }
     public static Num product(Num a, Num b) {
         return null;
     }
@@ -131,8 +130,8 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num("8888888888888");
-        Num y = new Num("2");
+        Num x = new Num("6565");
+        Num y = new Num("4001");
         Num z = Num.add(x, y);
         System.out.println(z);
         Num a = Num.product(x, y);
