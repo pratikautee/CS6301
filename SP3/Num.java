@@ -65,7 +65,33 @@ public class Num implements Comparable<Num> {
         return new Num(result,actualLength);
     }
     public static Num product(Num a, Num b) {
-        return null;
+        Num sum = new Num("0");
+        for(int i=0;i<a.len;i++)
+        {
+            long carry =0;
+            long pow = (long)Math.pow(10, a.numLength);
+            long [] intermediateProduct = new long[a.len + b.len];
+            int idx=0;
+            for(int j=0;j<b.len;j++)
+            {
+                long res = (b.list[j]*a.list[i])+carry;
+                carry = res /pow;
+
+                res = res%pow;
+                if(j==0)
+                { for(int u=0;u<i;u++)
+                 { intermediateProduct[idx]=0; idx++; }
+                }
+                intermediateProduct[idx]=res; idx++;
+            }
+            if(carry!=0)
+            {
+                intermediateProduct[idx]=carry;idx++;}
+
+            sum = Num.add(sum,new Num(intermediateProduct,idx));
+        }
+
+        return sum;
     }
 
     // Return number to a string in base 10
@@ -130,8 +156,8 @@ public class Num implements Comparable<Num> {
     }
 
     public static void main(String[] args) {
-        Num x = new Num("6565");
-        Num y = new Num("4001");
+        Num x = new Num("6563232325");
+        Num y = new Num("4323232001");
         Num z = Num.add(x, y);
         System.out.println(z);
         Num a = Num.product(x, y);
