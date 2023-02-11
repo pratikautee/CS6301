@@ -2,10 +2,9 @@
 // Version 1.0 (Fri, Feb 3).
 
 // Change following line to your NetId
-package axk190189;
 
-import java.time.temporal.Temporal;
-import java.util.Arrays;
+// Project by pga210001, axk190189
+package axk190189;
 
 public class Num implements Comparable<Num> {
 
