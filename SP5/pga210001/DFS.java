@@ -129,8 +129,8 @@ public class DFS extends GraphAlgorithm<DFS.DFSVertex> {
 
     public static void main(String[] args) throws Exception {
         // String string = "7 8   1 2 2   1 3 3   2 4 5   3 4 4   4 5 1   5 1 7   6 7 1   7 6 1 0";
-        // String string = "3 3   1 2 0   3 1 0   3 2 0";
-        String string = "3 3    2 3 0   3 1 0   1 2 0";
+        String string = "3 3   1 2 0   3 1 0   3 2 0";
+        // String string = "3 2    2 3 0   3 1 0";
         Scanner in;
 	// If there is a command line argument, use it as file from which
 	// input is read, otherwise use input from string.
