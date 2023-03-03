@@ -6,6 +6,7 @@
 package pga210001;
 
 import idsa.Graph.Vertex;
+import pga210001.DFS.DFSVertex.STATUS;
 import idsa.Graph;
 import idsa.Graph.Edge;
 import idsa.Graph.GraphAlgorithm;
@@ -19,23 +20,96 @@ import java.util.Scanner;
 
 public class DFS extends GraphAlgorithm<DFS.DFSVertex> {
     public static class DFSVertex implements Factory {
-	int cno;
-	public DFSVertex(Vertex u) {
-	}
-	public DFSVertex make(Vertex u) { return new DFSVertex(u); }
+        int cno;
+
+        enum STATUS {
+            NEW, ACTIVE, FINISHED
+        };
+
+        STATUS status;
+        boolean marked;
+
+        public DFSVertex(Vertex u) {
+            this.marked = false;
+            this.status = STATUS.NEW;
+        }
+
+        public DFSVertex make(Vertex u) {
+            return new DFSVertex(u);
+        }
     }
+    
+    private static List<Vertex> topologicalOrder = new LinkedList<>();
 
     public DFS(Graph g) {
-	super(g, new DFSVertex(null));
+        super(g, new DFSVertex(null));
+    }
+    
+    public static boolean isDAGAll(Graph g) {
+        DFS d = new DFS(g);
+        for (Vertex v : g.getVertexArray()) {
+            d.get(v).status = STATUS.NEW;
+        }
+        for (Vertex v : g.getVertexArray()) {
+            if (d.get(v).status == STATUS.NEW) {
+                if (!isDAG(g, d, v)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    private static boolean isDAG(Graph g, DFS d, Vertex u) {
+        d.get(u).status = STATUS.ACTIVE;
+        for (Edge e : g.outEdges(u)) {
+            Vertex v = e.toVertex();
+            if (d.get(v).status == STATUS.ACTIVE) {
+                return false;
+            } else if (d.get(v).status == STATUS.NEW) {
+                if (!isDAG(g, d, v)) {
+                    return false;
+                }
+            }
+        }
+        d.get(u).status = STATUS.FINISHED;
+        return true;
     }
 
     public static DFS depthFirstSearch(Graph g) {
-	return null;
+        DFS d = new DFS(g);
+        for (Vertex u: g){
+            if (!d.get(u).marked) {
+                dfs(g, d, u);
+            }
+        }
+	return d;
+    }
+
+    private static void dfs(Graph g, DFS d, Vertex u){
+        d.get(u).marked = true;
+        d.get(u).status = STATUS.ACTIVE;
+        for (Edge e : g.outEdges(u)) {
+            Vertex v = e.toVertex();
+            if (d.get(v).status == STATUS.FINISHED) {
+                continue;
+            }
+            else if (d.get(u).status != STATUS.FINISHED && d.get(v).marked) {
+                throw new RuntimeException("Cycle Detected. Topological Ordering not possible");
+            }
+            else {
+                dfs(g, d, v);
+            }
+            
+        }
+        d.get(u).status = STATUS.FINISHED;
+        topologicalOrder.add(0,u);
     }
 
     // Member function to find topological order
     public List<Vertex> topologicalOrder1() {
-	return null;
+        depthFirstSearch(g);
+	return topologicalOrder;
     }
 
     // Find the number of connected components of the graph g by running dfs.
@@ -62,20 +136,31 @@ public class DFS extends GraphAlgorithm<DFS.DFSVertex> {
     }
 
     public static void main(String[] args) throws Exception {
-	String string = "7 8   1 2 2   1 3 3   2 4 5   3 4 4   4 5 1   5 1 7   6 7 1   7 6 1 0";
-	Scanner in;
+        // String string = "7 8   1 2 2   1 3 3   2 4 5   3 4 4   4 5 1   5 1 7   6 7 1   7 6 1 0";
+        String string = "3 3   1 2 0   3 1 0   3 2 0";
+        // String string = "3 2    2 3 0   3 1 0";
+        Scanner in;
 	// If there is a command line argument, use it as file from which
 	// input is read, otherwise use input from string.
 	in = args.length > 0 ? new Scanner(new File(args[0])) : new Scanner(string);
 	
 	// Read graph from input
-    Graph g = Graph.readGraph(in);
-	g.printGraph(false);
+    Graph g = Graph.readGraph(in, true);
+    g.printGraph(false);
 	
+    
 	// print the vertices in topological order
-	// write the code
-	
-
+    // write the code
+    if (isDAGAll(g)) {
+        System.out.println("The topological ordering for the graph is : ");
+        for (Vertex v : topologicalOrder1(g)) {
+            System.out.print(v.getName());
+            System.out.print("  ");
+        }
+    }
+    else {
+        System.out.println("Graph is not a DAG. Topological ordering not possible");
+    }
 	
     }
 }
