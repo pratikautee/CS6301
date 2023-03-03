@@ -88,21 +88,13 @@ public class DFS extends GraphAlgorithm<DFS.DFSVertex> {
 
     private static void dfs(Graph g, DFS d, Vertex u){
         d.get(u).marked = true;
-        d.get(u).status = STATUS.ACTIVE;
         for (Edge e : g.outEdges(u)) {
             Vertex v = e.toVertex();
-            if (d.get(v).status == STATUS.FINISHED) {
-                continue;
-            }
-            else if (d.get(u).status != STATUS.FINISHED && d.get(v).marked) {
-                throw new RuntimeException("Cycle Detected. Topological Ordering not possible");
-            }
-            else {
+            if (!d.get(v).marked) {
                 dfs(g, d, v);
             }
             
         }
-        d.get(u).status = STATUS.FINISHED;
         topologicalOrder.add(0,u);
     }
 
@@ -137,8 +129,8 @@ public class DFS extends GraphAlgorithm<DFS.DFSVertex> {
 
     public static void main(String[] args) throws Exception {
         // String string = "7 8   1 2 2   1 3 3   2 4 5   3 4 4   4 5 1   5 1 7   6 7 1   7 6 1 0";
-        String string = "3 3   1 2 0   3 1 0   3 2 0";
-        // String string = "3 2    2 3 0   3 1 0";
+        // String string = "3 3   1 2 0   3 1 0   3 2 0";
+        String string = "3 3    2 3 0   3 1 0   1 2 0";
         Scanner in;
 	// If there is a command line argument, use it as file from which
 	// input is read, otherwise use input from string.
