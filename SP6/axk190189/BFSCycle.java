@@ -1,3 +1,4 @@
+//Project by axk190189, pga210001
 package axk190189;
 import idsa.Graph;
 import idsa.BFSOO;
@@ -42,8 +43,10 @@ public class BFSCycle {
     public static void main(String[]args)
     {
         String input = "6 7    1 2 1   1 4 1    1 6 1   2 3 1   3 6 1   4 5 1   5 6 1"; // no cycle
-        String input1= "10 11   1 2 1   1 4 1   2 3 1   3 4 1   5 6 1   5 7 1   5 9 1   6 8 1   7 8 1   8 10 1  9 10 1"; //cycle 5 6 8 10 9 5
-        Scanner in = new Scanner(input1);
+        String input1 = "10 11   1 2 1   1 4 1   2 3 1   3 4 1   5 6 1   5 7 1   5 9 1   6 8 1   7 8 1   8 10 1  9 10 1"; //cycle 5 6 8 10 9 5
+        String input2 = "8 8    1 2 0   1 3 0   3 4 0   4 5 0   5 6 0   6 7 0   7 3 0   3 8 0"; //cycle 1 3 7 6 5 4 3 1
+        String input3 = "2 1    1 2 0"; //no cycle
+        Scanner in = new Scanner(input2);
         Graph g = Graph.readGraph(in);
         g.printGraph(true);
         List<Vertex> oddCycle = oddCycle(g);
