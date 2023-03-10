@@ -13,8 +13,8 @@ public class BFSCycle {
         for (Vertex src : g.getVertexArray()) {
             BFSOO b = BFSOO.breadthFirstSearch(g, g.getVertex(src));
             for (Edge e : g.getEdgeArray()) {
-                Vertex u = e.toVertex();
-                Vertex v = e.fromVertex();
+                Vertex v = e.toVertex();
+                Vertex u = e.fromVertex();
                 int uDistance = b.getDistance(u);
                 int vDistance = b.getDistance(v);
                 if (uDistance != INFINITY && uDistance == vDistance) {
@@ -43,10 +43,12 @@ public class BFSCycle {
     public static void main(String[]args)
     {
         String input = "6 7    1 2 1   1 4 1    1 6 1   2 3 1   3 6 1   4 5 1   5 6 1"; // no cycle
-        String input1 = "10 11   1 2 1   1 4 1   2 3 1   3 4 1   5 6 1   5 7 1   5 9 1   6 8 1   7 8 1   8 10 1  9 10 1"; //cycle 5 6 8 10 9 5
-        String input2 = "8 8    1 2 0   1 3 0   3 4 0   4 5 0   5 6 0   6 7 0   7 3 0   3 8 0"; //cycle 1 3 7 6 5 4 3 1
-        String input3 = "2 1    1 2 0"; //no cycle
-        Scanner in = new Scanner(input2);
+        // String input1 = "10 11   1 2 1   1 4 1   2 3 1   3 4 1   5 6 1   5 7 1   5 9 1   6 8 1   7 8 1   8 10 1  9 10 1"; //cycle 5 6 8 10 9 5
+        String input2 = "8 8    1 2 0   1 3 0   3 4 0   4 5 0   5 6 0   6 7 0   7 3 0   3 8 0"; //cycle 1 3 4 5 6 7 3 1
+        String testcase1 = "6 7     1 2 1   1 4 1   1 6 1   2 3 1   3 6 1   4 5 1   5 6 1"; //no cycle
+        String testcase2 = "8 9     1 2 1   1 3 1   1 4 1   1 6 1   2 3 1   3 6 1   4 5 1   5 6 1   7 8 1"; //cycle 1 2 3 1
+        String testcase3 = "10 11   1 2 1   1 4 1   2 3 1   3 4 1   5 6 1   5 7 1   5 9 1   6 8 1   7 8 1   8 10 1  9 10 1"; //cycle 5 6 8 10 9 5
+        Scanner in = new Scanner(testcase3);
         Graph g = Graph.readGraph(in);
         g.printGraph(true);
         List<Vertex> oddCycle = oddCycle(g);
