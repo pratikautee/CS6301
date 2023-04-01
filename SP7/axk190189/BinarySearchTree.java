@@ -2,9 +2,7 @@
  *  Binary search tree (starter code)
  **/
 
-//Project by axk190189, pga210001
-
-package axk190189;
+package idsa;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -36,13 +34,17 @@ public class BinarySearchTree<T extends Comparable<? super T>> implements Iterab
     /** TO DO: Is x contained in tree?
      */
     public boolean contains(T x) {
-	return false;
+	 Entry<T> t = find(x);
+     if(t==null || t.element.compareTo(x)!=0) return false;
+     return true;
     }
 
     /** TO DO: Is there an element that is equal to x in the tree?
      *  Element in tree that is equal to x is returned, null otherwise.
      */
     public T get(T x) {
+        Entry<T> t = find(x);
+        if(t!=null && t.element.compareTo(x)==0) return t.element;    
 	return null;
     }
 
