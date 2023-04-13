@@ -162,7 +162,7 @@ public class BinaryHeap<T extends Comparable<? super T>> {
     }
 
     public static void main(String[] args) {
-        Integer[] arr = { 4, 3, 5, 3, 6, 23, 1, 0, 89 };
+        Integer[] arr = { 0, 9, 7, 5, 3, 1, 8, 6, 4, 2 };
         BinaryHeap<Integer> h = new BinaryHeap(arr.length);
 
         System.out.print("Before:");
