@@ -45,15 +45,14 @@ public class BinaryHeap<T extends Comparable<? super T>> {
 
     // return null if pq is empty
     public T poll() {
-        if (!isEmpty()) {
-            Comparable root = peek();
-            move(0, pq[size() - 1]);
-            move(size - 1, null);
-            size--;
-            percolateDown(0);
-            return (T) root;
+        if (isEmpty()) {
+            return null;
         }
-        return null;
+        Comparable root = peek();
+        move(0, pq[--size]);
+        buildHeap();
+        return (T) root;
+
     }
 
     public T min() {
@@ -76,7 +75,7 @@ public class BinaryHeap<T extends Comparable<? super T>> {
     /** pq[index] may violate heap order with parent */
     void percolateUp(int index) {
         Comparable inserted = pq[index];
-        while (index > 1 && compare(inserted, pq[index / 2]) < 0) {
+        while (index > 0 && compare(inserted, pq[index / 2]) < 0) {
             move(index, pq[index / 2]);
             index = index / 2;
         }
