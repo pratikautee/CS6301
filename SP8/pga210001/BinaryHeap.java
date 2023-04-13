@@ -1,6 +1,6 @@
 // Starter code for SP8
 
-// Change to your netid
+// Project by pga210001, axk190189
 package pga210001;
 
 import java.util.Comparator;
@@ -22,7 +22,6 @@ public class BinaryHeap<T extends Comparable<? super T>> {
         if (size() == pq.length - 1) {
             resize();
         }
-
         int position = size++;
         move(position, x);
         percolateUp(position);
