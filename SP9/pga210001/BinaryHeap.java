@@ -153,11 +153,13 @@ public class BinaryHeap<T extends Comparable<? super T>> {
 
         /** restore heap order property after the priority of x has decreased */
         void decreaseKey(T x) {
+            percolateUp(x.getIndex());
         }
 
         @Override
         void move(int i, Comparable x) {
             super.move(i, x);
+            ((T) x).putIndex(i);
         }
     }
 
