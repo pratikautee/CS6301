@@ -163,7 +163,6 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 			get(u).marked = false;
 			get(u).dist = Integer.MAX_VALUE;
 			get(u).self = u;
-			get(u).putIndex(0);
 		}
 		get(s).dist = 0;
 		get(s).marked = true;
