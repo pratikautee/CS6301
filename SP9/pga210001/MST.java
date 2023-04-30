@@ -36,14 +36,12 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 		boolean marked;
 		int component;
 		int dist;
-		Vertex parent;
 		Vertex self;
 		int PrimVertex;
 
 		MSTVertex(Vertex u) {
 			this.marked = false;
 			this.dist = Integer.MAX_VALUE;
-			this.parent = null;
 			this.self = u;
 			this.PrimVertex = 0;
 		}
@@ -52,7 +50,6 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 			// for prim2
 			this.marked = u.marked;
 			this.dist = u.dist;
-			this.parent = u.parent;
 			this.self = u.self;
 			this.PrimVertex = u.PrimVertex;
 		}
@@ -70,7 +67,13 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 		}
 
 		public int compareTo(MSTVertex other) {
-			return 0;
+			if (other == null || this.dist > other.dist) {
+				return 1;
+			} else if (this.dist < other.dist) {
+				return -1;
+			} else {
+				return 0;
+			}
 		}
 	}
 
@@ -158,12 +161,12 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 		IndexedHeap<MSTVertex> q = new IndexedHeap<>(g.size());
 		for (Vertex u : g) {
 			get(u).marked = false;
-			get(u).parent = null;
 			get(u).dist = Integer.MAX_VALUE;
 			get(u).self = u;
 			get(u).putIndex(0);
 		}
 		get(s).dist = 0;
+		get(s).marked = true;
 		for (Vertex u : g) {
 			q.add(get(u));
 		}
@@ -175,7 +178,6 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 				Vertex v = e.otherEnd(u.self);
 				if (!get(v).marked && e.getWeight() < get(v).dist) {
 					get(v).dist = e.getWeight();
-					get(v).parent = u.self;
 					q.decreaseKey(get(v));
 				}
 			}
