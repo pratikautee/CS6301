@@ -27,6 +27,7 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 	String algorithm;
 	public long wmst;
 	List<Edge> mst;
+	Edge[] safeEdges = new Edge[g.size()];
 
 	MST(Graph g) {
 		super(g, new MSTVertex((Vertex) null));
@@ -97,7 +98,7 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 		int count = countAndLabel(F);
 		while (count > 1) {
 			addAllSafeEdges(g.getEdgeArray(), F, count);
-			count = countAndLabel(g);
+			count = countAndLabel(F);
 		}
 		for (Edge e : F.getEdgeArray()) {
 			minWeight += e.getWeight();
@@ -108,6 +109,9 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 	private int countAndLabel(Graph F) {
 		int count = 0;
 		for (Vertex u : F) {
+			get(u).marked = false;
+		}
+		for (Vertex u : F) {
 			if (!get(u).marked) {
 				countAndLabelHelper(u, F, count++);
 			}
@@ -116,9 +120,8 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 	}
 
 	private void countAndLabelHelper(Vertex u, Graph F, int count) {
-		MSTVertex _u = get(u);
-		_u.marked = true;
-		_u.component = count;
+		get(u).marked = true;
+		get(u).component = count;
 		for (Edge e : F.outEdges(u)) {
 			Vertex v = e.otherEnd(u);
 			if (!get(v).marked) {
@@ -128,7 +131,6 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 	}
 
 	private void addAllSafeEdges(Edge[] E, Graph F, int count) {
-		Edge[] safeEdges = new Edge[count];
 		for (int i = 0; i < count; i++) {
 			safeEdges[i] = null;
 		}
@@ -146,7 +148,12 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 				}
 			}
 		}
-		Set<Edge> uniqEdges = new HashSet<>(Arrays.asList(safeEdges));
+		Set<Edge> uniqEdges = new HashSet<>();
+		for (int i = 0; i < count; i++) {
+			if (safeEdges[i] != null) {
+				uniqEdges.add(safeEdges[i]);
+			}
+		}
 		for (Edge e : uniqEdges) {
 			if (e != null) {
 				F.addEdge(e.fromVertex(), e.toVertex(), e.getWeight(), e.getName());
