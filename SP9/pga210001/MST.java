@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Stack;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -98,11 +99,8 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 		Graph F = new Graph(g.size());
 		int count = countAndLabel(F);
 		while (count > 1) {
-			addAllSafeEdges(g.getEdgeArray(), F, count);
+			minWeight += addAllSafeEdges(g.getEdgeArray(), F, count);
 			count = countAndLabel(F);
-		}
-		for (Edge e : F.getEdgeArray()) {
-			minWeight += e.getWeight();
 		}
 		return minWeight;
 	}
@@ -112,26 +110,29 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 		for (Vertex u : F) {
 			get(u).marked = false;
 		}
+		Stack<Vertex> st = new Stack<>();
 		for (Vertex u : F) {
 			if (!get(u).marked) {
-				countAndLabelHelper(u, F, count++);
+				st.push(u);
+				while (!st.isEmpty()) {
+					Vertex v = st.pop();
+					get(v).marked = true;
+					get(v).component = count;
+					for (Edge e : F.outEdges(v)) {
+						Vertex w = e.otherEnd(v);
+						if (!get(w).marked) {
+							st.push(w);
+						}
+					}
+				}
+				count++;
 			}
 		}
 		return count;
 	}
 
-	private void countAndLabelHelper(Vertex u, Graph F, int count) {
-		get(u).marked = true;
-		get(u).component = count;
-		for (Edge e : F.outEdges(u)) {
-			Vertex v = e.otherEnd(u);
-			if (!get(v).marked) {
-				countAndLabelHelper(v, F, count);
-			}
-		}
-	}
-
-	private void addAllSafeEdges(Edge[] E, Graph F, int count) {
+	private int addAllSafeEdges(Edge[] E, Graph F, int count) {
+		int wtSum = 0;
 		for (int i = 0; i < count; i++) {
 			safeEdges[i] = null;
 		}
@@ -160,8 +161,11 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 		for (Edge e : uniqEdges) {
 			if (e != null) {
 				F.addEdge(e.fromVertex(), e.toVertex(), e.getWeight(), e.getName());
+				wtSum += e.getWeight();
 			}
 		}
+
+		return wtSum;
 	}
 
 	public long prim2(Vertex s) {

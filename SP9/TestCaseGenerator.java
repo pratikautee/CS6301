@@ -9,12 +9,12 @@ import java.util.Set;
 public class TestCaseGenerator {
 
     public static void main(String[] args) {
-        long numNodes = 10_000;
-        long numEdges = 1_000_000;
+        int numNodes = 10_000;
+        int numEdges = 1_000_000;
 
         if (args.length == 2) {
-            numNodes = Long.valueOf(args[0]);
-            numEdges = Long.valueOf(args[1]);
+            numNodes = Integer.parseInt(args[0]);
+            numEdges = Integer.parseInt(args[1]);
         }
 
         Set<String> inputSet = new HashSet<>();
@@ -22,9 +22,9 @@ public class TestCaseGenerator {
         Random rng = new Random();
 
         while (inputSet.size() < numEdges) {
-            Long v1 = rng.nextLong(1, numNodes);
-            Long v2 = rng.nextLong(1, numNodes);
-            int wt = rng.nextInt(1, 1000);
+            int v1 = rng.nextInt(numNodes - 1) + 1;
+            int v2 = rng.nextInt(numNodes - 1) + 1;
+            int wt = rng.nextInt(1000 - 1) + 1;
             if (v1 != v2 && !inputSet.contains(v1 + " " + v2) && !inputSet.contains(v2 + " " + v1)) {
                 inputSet.add(v1 + " " + v2 + " " + wt);
             }
