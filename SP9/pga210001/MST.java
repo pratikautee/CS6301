@@ -136,16 +136,18 @@ public class MST extends GraphAlgorithm<MST.MSTVertex> {
 			safeEdges[i] = null;
 		}
 		for (Edge e : E) {
-			Vertex u = e.fromVertex();
-			Vertex v = e.otherEnd(u);
-			int u_comp = get(u).component;
-			int v_comp = get(v).component;
-			if (u_comp != v_comp) {
-				if (safeEdges[u_comp] == null || e.compareTo(safeEdges[u_comp]) < 0) {
-					safeEdges[u_comp] = e;
-				}
-				if (safeEdges[v_comp] == null || e.compareTo(safeEdges[v_comp]) < 0) {
-					safeEdges[v_comp] = e;
+			if (e != null) {
+				Vertex u = e.fromVertex();
+				Vertex v = e.otherEnd(u);
+				int u_comp = get(u).component;
+				int v_comp = get(v).component;
+				if (u_comp != v_comp) {
+					if (safeEdges[u_comp] == null || e.compareTo(safeEdges[u_comp]) < 0) {
+						safeEdges[u_comp] = e;
+					}
+					if (safeEdges[v_comp] == null || e.compareTo(safeEdges[v_comp]) < 0) {
+						safeEdges[v_comp] = e;
+					}
 				}
 			}
 		}
