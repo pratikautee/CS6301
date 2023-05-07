@@ -52,7 +52,7 @@ public class Msort {
 				for (int i = 0; i < numTrials; i++) {
 					initArray(arr);
 					mergeSort4(arr);
-					System.out.println(Arrays.toString(arr));
+					//System.out.println(Arrays.toString(arr));
 				}
 				break;
 			case 5:
@@ -65,7 +65,7 @@ public class Msort {
 				for (int i = 0; i < numTrials; i++) {
 					initArray(arr);
 					mergeSort6(arr);
-					System.out.println(Arrays.toString(arr));
+					//System.out.println(Arrays.toString(arr));
 				}
 				break;
 		}
