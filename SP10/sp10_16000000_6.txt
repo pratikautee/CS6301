@@ -1,0 +1,3 @@
+Choice: 6
+Time: 846 msec.
+Memory: 3276 MB / 15701 MB.
